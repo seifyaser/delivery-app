@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/core/di/injection.dart';
 import 'package:project/core/routing/app_router.dart';
-import 'package:project/features/location/presentation/cubit/location_cubit.dart';
+import 'package:project/features/home/presentation/cubit/location/location_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +25,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         theme: ThemeData(
-          textTheme: GoogleFonts.cairoTextTheme(
-            Theme.of(context).textTheme,
-          ),
+          textTheme: GoogleFonts.cairoTextTheme(Theme.of(context).textTheme),
         ),
 
         locale: const Locale('ar'),

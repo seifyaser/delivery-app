@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_location/app_location.dart' as pkg;
-import 'package:project/features/location/presentation/cubit/location_cubit.dart';
+import 'package:project/features/home/presentation/cubit/location/location_cubit.dart';
 
 class LocationSelector extends StatelessWidget {
   const LocationSelector({super.key});
@@ -13,19 +13,6 @@ class LocationSelector extends StatelessWidget {
       builder: (context, state) {
         final (mainText, subText) = _resolveTexts(state);
         final isLoading = state is LocationLoading;
-
-        if (state is LocationSuccess) {
-          debugPrint('''
-════════ LOCATION ════════
-FULL ADDRESS: ${state.location.fullAddress}
-STREET: ${state.location.street}
-AREA: ${state.location.area}
-CITY: ${state.location.city}
-STATE: ${state.location.state}
-COUNTRY: ${state.location.country}
-══════════════════════════
-''');
-        }
 
         return Container(
           height: 58,
@@ -117,7 +104,6 @@ COUNTRY: ${state.location.country}
       },
     );
   }
-
 
   (String, String) _resolveTexts(LocationState state) {
     return switch (state) {

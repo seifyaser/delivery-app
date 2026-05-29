@@ -8,5 +8,4 @@ abstract final class RoutesPaths {
   static const signIn = '/sign-in';
   static const signUp = '/sign-up';
   static const categoryProducts = '/category-products';
-  static const location = '/location';
 }

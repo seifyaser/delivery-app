@@ -25,29 +25,42 @@ class LocationCubit extends Cubit<LocationState> {
     // 1. Fetch Coordinates
     final locationResult = await pkg.AppLocation.instance.getCurrentLocation();
 
-    if (locationResult is pkg.FailureResult<pkg.LocationFailure, pkg.LocationModel>) {
+    if (locationResult
+        is pkg.FailureResult<pkg.LocationFailure, pkg.LocationModel>) {
       final failure = _mapPackageFailure(locationResult.failure);
-      log('✗ emitting LocationError — [${failure.runtimeType}] ${failure.message}', name: _tag);
+      log(
+        '✗ emitting LocationError — [${failure.runtimeType}] ${failure.message}',
+        name: _tag,
+      );
       emit(LocationError(failure));
       return;
     }
 
     // 2. Reverse Geocode Coordinates
-    final location = (locationResult as pkg.Success<pkg.LocationFailure, pkg.LocationModel>).value;
-    
-    final addressResult = await pkg.AppLocation.instance.getAddressFromCoordinates(
-      latitude: location.latitude,
-      longitude: location.longitude,
-    );
+    final location =
+        (locationResult as pkg.Success<pkg.LocationFailure, pkg.LocationModel>)
+            .value;
 
-    if (addressResult is pkg.FailureResult<pkg.LocationFailure, pkg.AddressModel>) {
+    final addressResult = await pkg.AppLocation.instance
+        .getAddressFromCoordinates(
+          latitude: location.latitude,
+          longitude: location.longitude,
+        );
+
+    if (addressResult
+        is pkg.FailureResult<pkg.LocationFailure, pkg.AddressModel>) {
       final failure = _mapPackageFailure(addressResult.failure);
-      log('✗ emitting LocationError — [${failure.runtimeType}] ${failure.message}', name: _tag);
+      log(
+        '✗ emitting LocationError — [${failure.runtimeType}] ${failure.message}',
+        name: _tag,
+      );
       emit(LocationError(failure));
       return;
     }
 
-    final address = (addressResult as pkg.Success<pkg.LocationFailure, pkg.AddressModel>).value;
+    final address =
+        (addressResult as pkg.Success<pkg.LocationFailure, pkg.AddressModel>)
+            .value;
     log('✔ emitting LocationSuccess — "${address.fullAddress}"', name: _tag);
     emit(LocationSuccess(address));
   }
@@ -68,7 +81,8 @@ class LocationCubit extends Cubit<LocationState> {
   Failure _mapPackageFailure(pkg.LocationFailure packageFailure) {
     return switch (packageFailure) {
       pkg.PermissionDeniedFailure() => const PermissionDeniedFailure(),
-      pkg.PermissionDeniedForeverFailure() => const PermissionDeniedForeverFailure(),
+      pkg.PermissionDeniedForeverFailure() =>
+        const PermissionDeniedForeverFailure(),
       pkg.LocationServiceDisabledFailure() => const ServiceDisabledFailure(),
       pkg.ReverseGeocodingFailure() => const ReverseGeocodingFailure(),
       _ => const LocationUnknownFailure(),

@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:project/features/location/presentation/cubit/location_cubit.dart';
+import 'package:project/features/home/presentation/cubit/location/location_cubit.dart';
 
 /// Global service locator instance.
 final GetIt getIt = GetIt.instance;
@@ -11,7 +11,5 @@ final GetIt getIt = GetIt.instance;
 void setupLocator() {
   // ── Presentation Layer ──────────────────────────────────────────────────────
   // Factory: each screen gets its own cubit instance.
-  getIt.registerFactory<LocationCubit>(
-    () => LocationCubit(),
-  );
+  getIt.registerFactory<LocationCubit>(() => LocationCubit());
 }
