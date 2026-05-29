@@ -10,6 +10,7 @@ import 'package:project/features/orders/presentation/screens/empty_orders_screen
 import 'package:project/features/profile/presentation/screens/profile.dart';
 import 'package:project/features/home/presentation/screens/categories_screen.dart';
 import 'package:project/features/home/presentation/screens/category_products_screen.dart';
+import 'package:project/features/location/presentation/screens/location_screen.dart';
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
 );
@@ -36,6 +37,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutesPaths.categoryProducts,
       builder: (context, state) => const CategoryProductsScreen(),
+    ),
+    GoRoute(
+      path: RoutesPaths.location,
+      builder: (context, state) => const LocationScreen(),
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
