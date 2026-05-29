@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:project/core/routing/routes_paths.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -7,7 +9,7 @@ class LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Logout logic
+        context.go(RoutesPaths.signIn);
       },
       child: Container(
         height: 60,
@@ -27,10 +29,7 @@ class LogoutButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
+            Icon(Icons.logout, color: Colors.white),
             SizedBox(width: 12),
             Text(
               'تسجيل الخروج',
