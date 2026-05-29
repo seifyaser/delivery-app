@@ -1,39 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/cart_cubit.dart';
 
 class OrderSummarySection extends StatelessWidget {
   const OrderSummarySection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: const Column(
-        children: [
-          _PriceRow(title: 'المجموع الفرعي', value: '21.99 ج.م'),
-          SizedBox(height: 16),
-          _PriceRow(title: 'رسوم التوصيل', value: '2.99 ج.م'),
-          SizedBox(height: 16),
-          _PriceRow(title: 'الضرائب', value: '1.80 ج.م'),
-          Divider(height: 30),
-          _PriceRow(
-            title: 'الإجمالي',
-            value: '26.78 ج.م',
-            isTotal: true,
-          ),
-        ],
-      ),
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        if (state is CartLoaded) {
+          final cart = state.cart;
+          return Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.05),
+                  spreadRadius: 1,
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                _PriceRow(title: 'المجموع الفرعي', value: '${cart.subtotal} ج.م'),
+                if (cart.discount > 0) ...[
+                  const SizedBox(height: 16),
+                  _PriceRow(title: 'الخصم', value: '-${cart.discount} ج.م'),
+                ],
+                const Divider(height: 30),
+                _PriceRow(
+                  title: 'الإجمالي',
+                  value: '${cart.total} ج.م',
+                  isTotal: true,
+                ),
+              ],
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 }

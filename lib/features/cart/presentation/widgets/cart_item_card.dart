@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/cart_cubit.dart';
 
 class CartItemCard extends StatelessWidget {
+  final String cartItemId;
   final String title;
   final double price;
   final int quantity;
@@ -8,6 +11,7 @@ class CartItemCard extends StatelessWidget {
 
   const CartItemCard({
     super.key,
+    this.cartItemId = '',
     required this.title,
     required this.price,
     required this.quantity,
@@ -63,6 +67,15 @@ class CartItemCard extends StatelessWidget {
 
           const SizedBox(width: 8),
 
+          IconButton(
+            onPressed: () {
+              if (cartItemId.isNotEmpty) {
+                context.read<CartCubit>().removeFromCart(cartItemId);
+              }
+            },
+            icon: const Icon(Icons.delete_outline, color: Colors.red),
+          ),
+          
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
@@ -72,6 +85,8 @@ class CartItemCard extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // In a real app we would call update quantity.
+                // For now, based on requirements, we only have add/remove endpoints mentioned.
                 Icon(Icons.remove, color: Colors.orange.shade700, size: 20),
                 const SizedBox(width: 10),
                 Text(

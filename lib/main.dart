@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project/core/di/injection.dart';
 import 'package:project/core/routing/app_router.dart';
 import 'package:project/features/home/presentation/cubit/location/location_cubit.dart';
+import 'package:project/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:project/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:project/features/orders/presentation/cubit/orders_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +22,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LocationCubit>(
-      create: (_) => getIt<LocationCubit>()..getCurrentLocation(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LocationCubit>(
+          create: (_) => getIt<LocationCubit>()..getCurrentLocation(),
+        ),
+        BlocProvider<AuthCubit>(
+          create: (_) => getIt<AuthCubit>(),
+        ),
+        BlocProvider<CartCubit>(
+          create: (_) => getIt<CartCubit>()..fetchCart(),
+        ),
+        BlocProvider<OrdersCubit>(
+          create: (_) => getIt<OrdersCubit>()..fetchMyOrders(),
+        ),
+      ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
 
@@ -42,3 +58,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

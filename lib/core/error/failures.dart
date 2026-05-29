@@ -47,3 +47,25 @@ class ReverseGeocodingFailure extends Failure {
 class LocationUnknownFailure extends Failure {
   const LocationUnknownFailure([super.message = 'حدث خطأ غير متوقع.']);
 }
+
+// ─── Network & API Failures ───────────────────────────────────────────────────
+
+class ServerFailure extends Failure {
+  const ServerFailure([super.message = 'حدث خطأ في الخادم.']);
+}
+
+class NetworkFailure extends Failure {
+  const NetworkFailure([super.message = 'لا يوجد اتصال بالإنترنت.']);
+}
+
+class UnauthorizedFailure extends Failure {
+  const UnauthorizedFailure([super.message = 'انتهت الجلسة أو غير مصرح لك.']);
+}
+
+class CacheFailure extends Failure {
+  const CacheFailure([super.message = 'حدث خطأ في التخزين المؤقت.']);
+}
+
+class UnknownFailure extends Failure {
+  const UnknownFailure([super.message = 'حدث خطأ غير متوقع.']);
+}

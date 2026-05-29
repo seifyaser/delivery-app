@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project/core/routing/routes_paths.dart';
 import 'package:project/shared/navbar/floating_navbar_scaffold.dart';
+import 'package:project/features/auth/presentation/screens/splash_screen.dart';
 import 'package:project/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:project/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:project/features/home/presentation/screens/home.dart';
 import 'package:project/features/cart/presentation/screens/cart.dart';
-import 'package:project/features/orders/presentation/screens/empty_orders_screen.dart';
 import 'package:project/features/profile/presentation/screens/profile.dart';
 import 'package:project/features/home/presentation/screens/categories_screen.dart';
 import 'package:project/features/home/presentation/screens/category_products_screen.dart';
+import 'package:project/features/products/presentation/screens/product_details_screen.dart';
+import 'package:project/features/orders/presentation/screens/orders_screen.dart';
+import 'package:project/features/orders/presentation/screens/order_details_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
@@ -20,8 +23,12 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: RoutesPaths.signIn,
+  initialLocation: RoutesPaths.splash,
   routes: [
+    GoRoute(
+      path: RoutesPaths.splash,
+      builder: (context, state) => const SplashScreen(),
+    ),
     GoRoute(
       path: RoutesPaths.signIn,
       builder: (context, state) => const SignInScreen(),
@@ -36,7 +43,17 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: RoutesPaths.categoryProducts,
-      builder: (context, state) => const CategoryProductsScreen(),
+      builder: (context, state) {
+        final categoryId = state.extra as String?;
+        return CategoryProductsScreen(categoryId: categoryId ?? '');
+      },
+    ),
+    GoRoute(
+      path: RoutesPaths.details,
+      builder: (context, state) {
+        final productId = state.extra as String?;
+        return ProductDetailsScreen(productId: productId ?? '');
+      },
     ),
 
     ShellRoute(
@@ -56,6 +73,13 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: RoutesPaths.orders,
           builder: (context, state) => const OrdersScreen(),
+        ),
+        GoRoute(
+          path: RoutesPaths.orderDetails,
+          builder: (context, state) {
+            final orderId = state.extra as String?;
+            return OrderDetailsScreen(orderId: orderId ?? '');
+          },
         ),
         GoRoute(
           path: RoutesPaths.profile,

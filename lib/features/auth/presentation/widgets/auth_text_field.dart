@@ -1,47 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class AuthTextField extends StatelessWidget {
+class AuthTextField extends StatefulWidget {
+  final String name;
   final String hintText;
   final IconData icon;
   final bool isPassword;
   final TextInputType keyboardType;
+  final String? Function(String?)? validator;
 
   const AuthTextField({
     super.key,
+    required this.name,
     required this.hintText,
     required this.icon,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
+    this.validator,
   });
+
+  @override
+  State<AuthTextField> createState() => _AuthTextFieldState();
+}
+
+class _AuthTextFieldState extends State<AuthTextField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: Colors.grey.shade300),
       ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       child: Row(
         children: [
-          Icon(icon, color: Colors.grey),
+          Icon(widget.icon, color: Colors.grey),
           const SizedBox(width: 12),
           Expanded(
-            child: TextField(
-              obscureText: isPassword,
-              keyboardType: keyboardType,
+            child: FormBuilderTextField(
+              name: widget.name,
+              obscureText: _obscureText,
+              keyboardType: widget.keyboardType,
+              validator: widget.validator,
               decoration: InputDecoration(
-                hintText: hintText,
+                hintText: widget.hintText,
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: EdgeInsets.zero,
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                errorStyle: const TextStyle(height: 0.8),
               ),
             ),
           ),
-          if (isPassword)
-            const Icon(Icons.visibility_off, color: Colors.grey),
+          if (widget.isPassword)
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              child: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: Colors.grey,
+              ),
+            ),
         ],
       ),
     );

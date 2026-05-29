@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class AuthLayout extends StatelessWidget {
+  final GlobalKey<FormBuilderState>? formKey;
   final IconData topIcon;
   final double iconSize;
   final String title;
@@ -12,6 +14,7 @@ class AuthLayout extends StatelessWidget {
 
   const AuthLayout({
     super.key,
+    this.formKey,
     required this.topIcon,
     this.iconSize = 100,
     required this.title,
@@ -31,47 +34,50 @@ class AuthLayout extends StatelessWidget {
           child: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Icon(
-                  topIcon,
-                  size: iconSize,
-                  color: Colors.deepOrange,
-                ),
-                const SizedBox(height: 40),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 40),
-                ...fields,
-                const SizedBox(height: 40),
-                actionButton,
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      bottomText,
-                      style: const TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
-                    GestureDetector(
-                      onTap: onBottomActionTap,
-                      child: Text(
-                        bottomActionText,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.deepOrange,
-                          fontWeight: FontWeight.bold,
+            child: FormBuilder(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Icon(
+                    topIcon,
+                    size: iconSize,
+                    color: Colors.deepOrange,
+                  ),
+                  const SizedBox(height: 40),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 40),
+                  ...fields,
+                  const SizedBox(height: 40),
+                  actionButton,
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        bottomText,
+                        style: const TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      GestureDetector(
+                        onTap: onBottomActionTap,
+                        child: Text(
+                          bottomActionText,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.deepOrange,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
